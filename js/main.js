@@ -201,8 +201,20 @@ async function buildUIList(targetUrl, domTarget) {
   domTarget.innerHTML = "";
 
   // iterazioni che non ritornano un nuovo array
-  dataset.forEach((singleRow) => {
+  // Sostituisci il vecchio forEach con questo:
+  dataset.forEach((singleRow, index) => {
     const generatedVisual = generatePreviewElement(singleRow);
+
+    // Assegna un ritardo crescente (es: 0s, 0.1s, 0.2s, 0.3s...)
+    generatedVisual.style.animationDelay = `${index * 0.1}s`;
+
+    // TRUCCO PRO: Quando l'animazione di volo finisce, la rimuoviamo.
+    // Questo permette al tuo effetto :hover originale di tornare a funzionare perfettamente!
+    generatedVisual.addEventListener("animationend", () => {
+      generatedVisual.style.animation = "none";
+      generatedVisual.style.opacity = "1";
+    });
+
     domTarget.appendChild(generatedVisual);
   });
 }

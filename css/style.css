@@ -17,6 +17,31 @@ body {
   border-bottom: 2px solid #000000;
 }
 
+/* Animazione assegnata al contenitore del logo */
+.main-header div a {
+  display: inline-block; /* Necessario per far ruotare i link */
+  transform-origin: center center;
+  animation: ingressoPortale 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* =========================================
+   ANIMAZIONE INGRESSO LOGO (Effetto Portale)
+   ========================================= */
+@keyframes ingressoPortale {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-720deg);
+    filter: blur(15px);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: blur(0);
+  }
+}
+
 /* logo */
 .logo-img {
   height: 120px;
@@ -24,9 +49,8 @@ body {
   transition: all 0.5s ease-in-out;
 }
 .logo-img:hover {
-  transform: scale(1.3);
+  transform: scale(1.3) rotate(-5deg);
   filter: invert(100%);
-  rotate: -5deg;
 }
 
 /* nav */
@@ -75,6 +99,7 @@ body {
 }
 
 /* poster */
+/* Modifica la classe poster-item esistente */
 .poster-item {
   background-color: #000000;
   border-radius: 8px;
@@ -85,10 +110,31 @@ body {
     box-shadow 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
+
+  /* NUOVE REGOLE PER L'ANIMAZIONE CARTE */
+  opacity: 0; /* Partono invisibili per non farsi vedere prima del volo */
+  /* L'animazione base. Il ritardo (delay) lo metteremo in JS! */
+  animation: dealCard 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 .poster-item:hover {
   transform: translateY(-8px);
   box-shadow: 0 8px 16px rgba(255, 1, 1, 0.748);
+}
+
+/* =========================================
+   ANIMAZIONE CARTE (Distribuzione Solitario)
+   ========================================= */
+@keyframes dealCard {
+  0% {
+    opacity: 0;
+    /* Partono da in alto a destra, rimpicciolite e ruotate come in una mano di carte */
+    transform: translate(100vw, -100vh) rotate(45deg) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    /* Atterrano dritte, normali e nella loro posizione della griglia */
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
 }
 
 .poster-item img {
@@ -160,6 +206,7 @@ body {
 }
 
 /* box profilo */
+/* Box profilo */
 .user-profile-box {
   background-color: #141414;
   max-width: 500px;
@@ -167,6 +214,48 @@ body {
   padding: 40px;
   text-align: center;
   border-radius: 12px;
+
+  opacity: 0;
+  transform-origin: center center;
+
+  /* Leggermente più veloce (5.5s) per un ingresso più reattivo */
+  animation: voloNelVento 5.5s ease-out forwards;
+}
+
+/* =========================================
+   ANIMAZIONE PROFILO (Volo ampio nel vento)
+   ========================================= */
+@keyframes voloNelVento {
+  0% {
+    opacity: 0;
+    /* Parte molto più in basso (-80vh invece di -120vh), appena sopra lo schermo */
+    transform: perspective(1000px) translateY(-80vh) translateX(40vw)
+      rotateZ(40deg) rotateX(60deg) rotateY(40deg);
+  }
+  5% {
+    opacity: 1; /* Appare in un istante (al 5% dell'animazione) */
+  }
+  30% {
+    /* Prima grande planata a SINISTRA */
+    transform: perspective(1000px) translateY(-50vh) translateX(-35vw)
+      rotateZ(-30deg) rotateX(-40deg) rotateY(-25deg);
+  }
+  65% {
+    /* Seconda folata verso DESTRA */
+    transform: perspective(1000px) translateY(-20vh) translateX(25vw)
+      rotateZ(15deg) rotateX(25deg) rotateY(15deg);
+  }
+  85% {
+    /* Piccola correzione a SINISTRA prima di atterrare */
+    transform: perspective(1000px) translateY(-5vh) translateX(-10vw)
+      rotateZ(-5deg) rotateX(-10deg) rotateY(-5deg);
+  }
+  100% {
+    opacity: 1;
+    /* Atterraggio perfetto al centro */
+    transform: perspective(1000px) translateY(0) translateX(0) rotateZ(0deg)
+      rotateX(0deg) rotateY(0deg);
+  }
 }
 
 /* avatar */
@@ -184,8 +273,7 @@ body {
 }
 .avatar-circle:hover {
   background-color: #e50914cc;
-  transform: scale(1.3);
-  rotate: 360deg;
+  transform: scale(1.3) rotate(360deg);
 }
 
 .user-title {
@@ -270,32 +358,128 @@ body {
   display: inline-block;
 }
 
+/* Ora questo div serve SOLO per centrare lo spazio, senza essere cliccabile */
 .popup-immagine-container {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
-  transition: transform 0.2s ease-in-out;
-  cursor: zoom-in; /* lente più */
 }
-.popup-immagine-container:hover {
+
+#popupImmagine {
+  max-width: 200px;
+  border-radius: 4px;
+  /* Effetti spostati qui, direttamente sulla locandina */
+  cursor: zoom-in;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* L'hover fa ingrandire SOLO l'immagine */
+#popupImmagine:hover {
   transform: scale(1.05);
 }
 
+/* Il contenitore base del popup */
 .popup-contenuto {
   background-color: #000000;
   padding: 30px;
   width: 450px;
   max-width: 90%;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
   color: #ffffff;
   text-align: left;
 
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+
+  /* L'overflow nascosto è il segreto per far funzionare l'illusione! */
+  overflow: hidden;
+  transform-style: preserve-3d;
+
+  /* Animazione di inclinazione: il tabellone sbatte contro lo schermo */
+  animation: tiltTabellone 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* 1. LA MASCHERA: Uno strato nero che "nasconde" il poster non ancora srotolato */
+.popup-contenuto::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #000000;
+  z-index: 98; /* Sta sopra al testo, ma sotto al rullo */
+
+  /* Si rimpicciolisce dal 100% allo 0% andando verso l'alto */
+  animation: alzaMaschera 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* 2. IL RULLO 3D: Il cilindro di carta arrotolata */
+.popup-contenuto::after {
+  content: "";
+  position: absolute;
+  /* Lo facciamo più largo del popup (110% e -5%) così i bordi arrotondati vengono tagliati 
+     dall'overflow: hidden, facendolo sembrare un cilindro perfetto e non una pillola! */
+  left: -5%;
+  width: 110%;
+
+  /* Questo gradiente crea l'effetto lucido 3D del cilindro illuminato */
+  background: linear-gradient(
+    to bottom,
+    #555 0%,
+    #111 25%,
+    #444 50%,
+    #000 80%,
+    #222 100%
+  );
+
+  /* Ombra proiettata sulla carta + riflesso di luce interno */
+  box-shadow:
+    0 15px 20px rgba(0, 0, 0, 0.9),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+  z-index: 99;
+
+  /* Il rullo sale e si rimpicciolisce */
+  animation: rulloSrotola 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* =========================================
+   ANIMAZIONI RULLO 3D (Effetto Premium)
+   ========================================= */
+
+@keyframes tiltTabellone {
+  0% {
+    transform: translate(-50%, -50%) perspective(1000px) rotateX(-20deg)
+      scale(0.95);
+  }
+  100% {
+    transform: translate(-50%, -50%) perspective(1000px) rotateX(0deg) scale(1);
+  }
+}
+
+@keyframes alzaMaschera {
+  0% {
+    height: 100%;
+  }
+  100% {
+    height: 0%;
+  }
+}
+
+@keyframes rulloSrotola {
+  0% {
+    bottom: 0%;
+    height: 70px; /* Rullo molto spesso e carico di carta all'inizio */
+    border-radius: 35px; /* Perfettamente tondo */
+  }
+  100% {
+    bottom: 100%;
+    height: 5px; /* Rullo esaurito (sottilissimo) in cima */
+    border-radius: 2px;
+    opacity: 0; /* Scompare una volta srotolato tutto */
+  }
 }
 
 .popup-titolo-link {
@@ -303,7 +487,7 @@ body {
   text-decoration: none;
   font-size: 20px;
   font-weight: bold;
-  display: block;
+  display: inline-block;
   margin-top: 8px;
   transition:
     color 0.2s ease-in-out,
