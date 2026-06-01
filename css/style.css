@@ -9,12 +9,71 @@ body {
 
 /* header */
 .main-header {
-  background-color: #e50914;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px 5%;
-  border-bottom: 2px solid #000000;
+  justify-content: space-between; /* Spinge il logo a sinistra e la nav a destra */
+  align-items: center; /* Li centra verticalmente */
+  padding: 20px 40px; /* (Usa il padding che avevi in origine se era diverso) */
+
+  /* Le due regole per far funzionare il pennello: */
+  background-color: transparent;
+  position: relative;
+}
+
+/* =========================================
+   EFFETTO PENNELLATA HEADER (DECISA)
+   ========================================= */
+
+.main-header::before {
+  content: "";
+  position: absolute;
+  /* Sborda appena per coprire bene gli angoli */
+  top: -2px;
+  left: -5px;
+  right: -5px;
+  bottom: -2px;
+  z-index: -1;
+
+  /* I colori che ti piacevano (le striature delle setole) */
+  background: linear-gradient(
+    to bottom,
+    #e50914 0%,
+    #b20710 12%,
+    #e50914 22%,
+    #ff1e27 28%,
+    #e50914 38%,
+    #cc0812 52%,
+    #e50914 65%,
+    #ff1e27 75%,
+    #e50914 85%,
+    #b20710 94%,
+    #e50914 100%
+  );
+
+  /* Bordi imperfetti ma non geometrici o seghettati */
+  border-radius: 6px 20px 8px 25px / 25px 5px 18px 10px;
+
+  /* Taglio netto e inclinato: simula la punta di una spatola/pennello piatto */
+  -webkit-mask-image: linear-gradient(
+    115deg,
+    black 0%,
+    black 88%,
+    transparent 100%
+  );
+  -webkit-mask-size: 200% 100%;
+  -webkit-mask-position: 100% 0;
+
+  /* Un colpo secco e immediato di mezzo secondo */
+  animation: colpoDeciso 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* KEYFRAME DELLA PENNELLATA */
+@keyframes colpoDeciso {
+  0% {
+    -webkit-mask-position: 100% 0;
+  }
+  100% {
+    -webkit-mask-position: 0% 0;
+  }
 }
 
 /* Animazione assegnata al contenitore del logo */
@@ -54,6 +113,38 @@ body {
 }
 
 /* nav */
+/* Il contenitore dei link della navbar */
+.navigation-bar {
+  /* Aggiungiamo questi due per sbloccare i movimenti */
+  display: flex; /* o inline-block, a seconda di come hai allineato i link */
+  position: relative;
+
+  transform-origin: bottom center;
+  animation: crolloNav 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* =========================================
+   ANIMAZIONE NAV (Squash & Stretch da fuori schermo)
+   ========================================= */
+@keyframes crolloNav {
+  0% {
+    /* -120vh garantisce che parta SEMPRE da sopra il limite superiore dello schermo */
+    transform: translateY(-120vh) scaleY(1.5) scaleX(0.9);
+  }
+  50% {
+    /* L'IMPATTO! Tocca terra, si schiaccia verticalmente e si allarga (WIDE) */
+    transform: translateY(0) scaleY(0.5) scaleX(1.15);
+  }
+  75% {
+    /* Rimbalzo verso l'alto (MOLLA), si riallunga un po' */
+    transform: translateY(0) scaleY(1.1) scaleX(0.95);
+  }
+  100% {
+    /* Si assesta perfettamente al suo stato originale */
+    transform: translateY(0) scaleY(1) scaleX(1);
+  }
+}
+
 .nav-link {
   display: inline-block;
   color: #000000;
@@ -207,6 +298,7 @@ body {
 
 /* box profilo */
 /* Box profilo */
+/* Box profilo */
 .user-profile-box {
   background-color: #141414;
   max-width: 500px;
@@ -216,45 +308,65 @@ body {
   border-radius: 12px;
 
   opacity: 0;
-  transform-origin: center center;
+  transform-origin: bottom center;
 
-  /* Leggermente più veloce (5.5s) per un ingresso più reattivo */
-  animation: voloNelVento 5.5s ease-out forwards;
+  /* Usiamo 'linear' per non farla laggare, gestiamo la fisica dentro ai keyframes */
+  animation: atterraggioCinematico 4s linear forwards;
 }
 
 /* =========================================
-   ANIMAZIONE PROFILO (Volo ampio nel vento)
+   ANIMAZIONE PROFILO (Regia Cinematografica: Fly-by + Atterraggio)
    ========================================= */
-@keyframes voloNelVento {
+/* =========================================
+   ANIMAZIONE PROFILO (Fly-by aereo + Atterraggio)
+   ========================================= */
+@keyframes atterraggioCinematico {
+  /* --- FASE 1: L'AEREO IN PICCHIATA (Fly-by velocissimo) --- */
   0% {
+    opacity: 1;
+    /* Parte da sopra lo schermo, inclinata come un caccia in manovra */
+    transform: translateY(-100vh) translateX(-50vw) rotate(45deg) scale(1);
+    box-shadow: 20px 20px 50px rgba(229, 9, 20, 0.8);
+    animation-timing-function: ease-in;
+  }
+  12% {
+    /* Taglia lo schermo in diagonale e sparisce in basso a destra */
+    transform: translateY(100vh) translateX(50vw) rotate(45deg) scale(1);
+    box-shadow: 20px 20px 50px rgba(229, 9, 20, 0.8);
+  }
+  13% {
     opacity: 0;
-    /* Parte molto più in basso (-80vh invece di -120vh), appena sopra lo schermo */
-    transform: perspective(1000px) translateY(-80vh) translateX(40vw)
-      rotateZ(40deg) rotateX(60deg) rotateY(40deg);
   }
-  5% {
-    opacity: 1; /* Appare in un istante (al 5% dell'animazione) */
+
+  /* --- FASE 2: IL GIRO (Fuori schermo) --- */
+  45% {
+    opacity: 0;
   }
-  30% {
-    /* Prima grande planata a SINISTRA */
-    transform: perspective(1000px) translateY(-50vh) translateX(-35vw)
-      rotateZ(-30deg) rotateX(-40deg) rotateY(-25deg);
+
+  /* --- FASE 3: L'ATTERRAGGIO PESANTE (Identico a prima) --- */
+  46% {
+    opacity: 1;
+    transform: translateY(-100vh) scale(0.5);
+    box-shadow: 0 200px 100px -20px rgba(229, 9, 20, 1);
+    animation-timing-function: ease-in;
   }
-  65% {
-    /* Seconda folata verso DESTRA */
-    transform: perspective(1000px) translateY(-20vh) translateX(25vw)
-      rotateZ(15deg) rotateX(25deg) rotateY(15deg);
+  70% {
+    transform: translateY(-15vh) scale(1);
+    box-shadow: 0 80px 50px -10px rgba(229, 9, 20, 0.9);
+    animation-timing-function: ease-out;
   }
   85% {
-    /* Piccola correzione a SINISTRA prima di atterrare */
-    transform: perspective(1000px) translateY(-5vh) translateX(-10vw)
-      rotateZ(-5deg) rotateX(-10deg) rotateY(-5deg);
+    transform: translateY(0) scaleX(1.1) scaleY(0.85);
+    box-shadow: 0 10px 20px rgba(229, 9, 20, 0.5);
+    animation-timing-function: ease-in-out;
+  }
+  92% {
+    transform: translateY(0) scaleX(0.96) scaleY(1.04);
   }
   100% {
     opacity: 1;
-    /* Atterraggio perfetto al centro */
-    transform: perspective(1000px) translateY(0) translateX(0) rotateZ(0deg)
-      rotateX(0deg) rotateY(0deg);
+    transform: translateY(0) scaleX(1) scaleY(1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
 }
 
