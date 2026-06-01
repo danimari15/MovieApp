@@ -33,7 +33,10 @@
     <main class="content-wrapper">
       <div class="user-profile-box">
         <!-- avatar -->
-        <div class="avatar-circle">DM</div>
+        <!-- Aggiungi questo div attorno alla tua immagine -->
+        <div class="rampa-di-lancio">
+          <div class="avatar-circle">DM</div>
+        </div>
         <h2 class="user-title">Daniele Marinelli</h2>
         <p class="project-details">
           Esame di
@@ -82,5 +85,44 @@
     <footer class="app-footer">
       <span class="footer-text">Movie App &copy; 2026</span>
     </footer>
+    <script>
+      const rampa = document.querySelector(".rampa-di-lancio");
+      const audioVader = new Audio("../mp3/vader.mp3");
+      audioVader.volume = 0.8;
+
+      // Questa funzione è il "motore" che prova a far partire l'audio
+      function provaAudio() {
+        audioVader.play().catch((error) => {
+          console.log(
+            "Il browser blocca ancora l'audio (normale se non hai ancora cliccato nulla).",
+          );
+        });
+      }
+
+      // Proviamo a pre-caricare l'audio appena l'utente clicca un punto qualsiasi
+      document.addEventListener(
+        "click",
+        () => {
+          audioVader.load();
+        },
+        { once: true },
+      );
+
+      let timerLancio;
+      let latoOscuroSbloccato = false;
+
+      rampa.addEventListener("mouseenter", () => {
+        if (latoOscuroSbloccato) return;
+
+        timerLancio = setTimeout(() => {
+          provaAudio(); // L'audio parte solo se il browser lo permette
+          latoOscuroSbloccato = true;
+        }, 15000); // 15 secondi
+      });
+
+      rampa.addEventListener("mouseleave", () => {
+        clearTimeout(timerLancio);
+      });
+    </script>
   </body>
 </html>

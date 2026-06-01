@@ -10,30 +10,26 @@ body {
 /* header */
 .main-header {
   display: flex;
-  justify-content: space-between; /* Spinge il logo a sinistra e la nav a destra */
-  align-items: center; /* Li centra verticalmente */
-  padding: 20px 40px; /* (Usa il padding che avevi in origine se era diverso) */
-
-  /* Le due regole per far funzionare il pennello: */
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
   background-color: transparent;
   position: relative;
 }
 
 /* =========================================
-   EFFETTO PENNELLATA HEADER (DECISA)
+   EFFETTO PENNELLATA HEADER (DECISA E PULITA)
    ========================================= */
 
 .main-header::before {
   content: "";
   position: absolute;
-  /* Sborda appena per coprire bene gli angoli */
   top: -2px;
   left: -5px;
   right: -5px;
   bottom: -2px;
   z-index: -1;
 
-  /* I colori che ti piacevano (le striature delle setole) */
   background: linear-gradient(
     to bottom,
     #e50914 0%,
@@ -49,43 +45,27 @@ body {
     #e50914 100%
   );
 
-  /* Bordi imperfetti ma non geometrici o seghettati */
   border-radius: 6px 20px 8px 25px / 25px 5px 18px 10px;
-
-  /* Taglio netto e inclinato: simula la punta di una spatola/pennello piatto */
-  -webkit-mask-image: linear-gradient(
-    115deg,
-    black 0%,
-    black 88%,
-    transparent 100%
-  );
-  -webkit-mask-size: 200% 100%;
-  -webkit-mask-position: 100% 0;
-
-  /* Un colpo secco e immediato di mezzo secondo */
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
   animation: colpoDeciso 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
 
-/* KEYFRAME DELLA PENNELLATA */
 @keyframes colpoDeciso {
   0% {
-    -webkit-mask-position: 100% 0;
+    clip-path: polygon(0 0, 0 0, -20% 100%, 0 100%);
   }
   100% {
-    -webkit-mask-position: 0% 0;
+    clip-path: polygon(0 0, 120% 0, 100% 100%, 0 100%);
   }
 }
 
 /* Animazione assegnata al contenitore del logo */
 .main-header div a {
-  display: inline-block; /* Necessario per far ruotare i link */
+  display: inline-block;
   transform-origin: center center;
   animation: ingressoPortale 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* =========================================
-   ANIMAZIONE INGRESSO LOGO (Effetto Portale)
-   ========================================= */
 @keyframes ingressoPortale {
   0% {
     opacity: 0;
@@ -113,34 +93,24 @@ body {
 }
 
 /* nav */
-/* Il contenitore dei link della navbar */
 .navigation-bar {
-  /* Aggiungiamo questi due per sbloccare i movimenti */
-  display: flex; /* o inline-block, a seconda di come hai allineato i link */
+  display: flex;
   position: relative;
-
   transform-origin: bottom center;
   animation: crolloNav 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* =========================================
-   ANIMAZIONE NAV (Squash & Stretch da fuori schermo)
-   ========================================= */
 @keyframes crolloNav {
   0% {
-    /* -120vh garantisce che parta SEMPRE da sopra il limite superiore dello schermo */
     transform: translateY(-120vh) scaleY(1.5) scaleX(0.9);
   }
   50% {
-    /* L'IMPATTO! Tocca terra, si schiaccia verticalmente e si allarga (WIDE) */
     transform: translateY(0) scaleY(0.5) scaleX(1.15);
   }
   75% {
-    /* Rimbalzo verso l'alto (MOLLA), si riallunga un po' */
     transform: translateY(0) scaleY(1.1) scaleX(0.95);
   }
   100% {
-    /* Si assesta perfettamente al suo stato originale */
     transform: translateY(0) scaleY(1) scaleX(1);
   }
 }
@@ -190,7 +160,6 @@ body {
 }
 
 /* poster */
-/* Modifica la classe poster-item esistente */
 .poster-item {
   background-color: #000000;
   border-radius: 8px;
@@ -201,10 +170,7 @@ body {
     box-shadow 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
-
-  /* NUOVE REGOLE PER L'ANIMAZIONE CARTE */
-  opacity: 0; /* Partono invisibili per non farsi vedere prima del volo */
-  /* L'animazione base. Il ritardo (delay) lo metteremo in JS! */
+  opacity: 0;
   animation: dealCard 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 .poster-item:hover {
@@ -212,18 +178,13 @@ body {
   box-shadow: 0 8px 16px rgba(255, 1, 1, 0.748);
 }
 
-/* =========================================
-   ANIMAZIONE CARTE (Distribuzione Solitario)
-   ========================================= */
 @keyframes dealCard {
   0% {
     opacity: 0;
-    /* Partono da in alto a destra, rimpicciolite e ruotate come in una mano di carte */
     transform: translate(100vw, -100vh) rotate(45deg) scale(0.5);
   }
   100% {
     opacity: 1;
-    /* Atterrano dritte, normali e nella loro posizione della griglia */
     transform: translate(0, 0) rotate(0deg) scale(1);
   }
 }
@@ -297,8 +258,6 @@ body {
 }
 
 /* box profilo */
-/* Box profilo */
-/* Box profilo */
 .user-profile-box {
   background-color: #141414;
   max-width: 500px;
@@ -309,41 +268,26 @@ body {
 
   opacity: 0;
   transform-origin: bottom center;
-
-  /* Usiamo 'linear' per non farla laggare, gestiamo la fisica dentro ai keyframes */
   animation: atterraggioCinematico 4s linear forwards;
 }
 
-/* =========================================
-   ANIMAZIONE PROFILO (Regia Cinematografica: Fly-by + Atterraggio)
-   ========================================= */
-/* =========================================
-   ANIMAZIONE PROFILO (Fly-by aereo + Atterraggio)
-   ========================================= */
 @keyframes atterraggioCinematico {
-  /* --- FASE 1: L'AEREO IN PICCHIATA (Fly-by velocissimo) --- */
   0% {
     opacity: 1;
-    /* Parte da sopra lo schermo, inclinata come un caccia in manovra */
     transform: translateY(-100vh) translateX(-50vw) rotate(45deg) scale(1);
     box-shadow: 20px 20px 50px rgba(229, 9, 20, 0.8);
     animation-timing-function: ease-in;
   }
   12% {
-    /* Taglia lo schermo in diagonale e sparisce in basso a destra */
     transform: translateY(100vh) translateX(50vw) rotate(45deg) scale(1);
     box-shadow: 20px 20px 50px rgba(229, 9, 20, 0.8);
   }
   13% {
     opacity: 0;
   }
-
-  /* --- FASE 2: IL GIRO (Fuori schermo) --- */
   45% {
     opacity: 0;
   }
-
-  /* --- FASE 3: L'ATTERRAGGIO PESANTE (Identico a prima) --- */
   46% {
     opacity: 1;
     transform: translateY(-100vh) scale(0.5);
@@ -370,24 +314,6 @@ body {
   }
 }
 
-/* avatar */
-.avatar-circle {
-  width: 80px;
-  height: 80px;
-  background-color: #e50914;
-  color: #ffffff;
-  border-radius: 50%;
-  margin: 0 auto 20px auto;
-  font-size: 32px;
-  line-height: 80px;
-  font-weight: bold;
-  transition: all 0.3s ease-in-out;
-}
-.avatar-circle:hover {
-  background-color: #e50914cc;
-  transform: scale(1.3) rotate(360deg);
-}
-
 .user-title {
   color: #ffffff;
   margin-bottom: 15px;
@@ -411,6 +337,268 @@ body {
 }
 .tech-link:hover {
   color: #e50914;
+}
+
+/* =========================================
+   EASTER EGG: IL LATO OSCURO (DARTH VADER)
+   ========================================= */
+
+/* Registriamo una variabile CSS in memoria per bloccare la rotazione per sempre */
+@property --vader-mode {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: true;
+}
+
+/* 1. La rampa invisibile */
+.rampa-di-lancio {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  cursor: default;
+
+  /* Stato base a 0. Ricorderà il valore 1 all'infinito! */
+  --vader-mode: 0;
+  transition: --vader-mode 0s linear 99999s;
+}
+
+/* Scatta a 1 solo dopo 10 secondi di hover continuo */
+.rampa-di-lancio:hover {
+  --vader-mode: 1;
+  transition: --vader-mode 0s linear 10s;
+}
+
+/* 2. Il Countdown Olografico (Ripristinato Arancione) */
+.rampa-di-lancio::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  color: #ff9900; /* Tornato al bell'arancione brillante */
+  font-size: 22px;
+  font-weight: bold;
+  font-family: monospace;
+  opacity: 0;
+  z-index: 200;
+  pointer-events: none;
+  text-shadow: 0 0 10px rgba(255, 153, 0, 0.8);
+}
+
+.rampa-di-lancio:hover::before {
+  animation: displayCountdown 5s forwards;
+  animation-delay: 5s;
+}
+
+/* 3. Il tuo cerchio Avatar Base */
+.avatar-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 100;
+
+  background-color: #e50914; /* Colore originale */
+  color: #ffffff; /* Testo originale */
+  border-radius: 50%;
+  margin: 0 auto 20px auto;
+  font-size: 32px;
+  font-weight: bold;
+
+  /* ROTAZIONE INTELLIGENTE: 0 gradi di base, 360 se Vader Mode è attiva! */
+  rotate: calc(360deg * var(--vader-mode));
+  translate: 0px 0px;
+
+  /* Ombre base vuote, pronte per il Rientro Propulsivo Rosso */
+  box-shadow:
+    0 0 0 rgba(229, 9, 20, 0),
+    0 0 0 rgba(178, 7, 16, 0),
+    0 0 0 rgba(0, 0, 0, 0);
+
+  /* MEMORIA: Mantiene colori e rotazione per 99999s. Rientra a terra in 3.5s. */
+  transition:
+    rotate 0.5s ease-out,
+    translate 3.5s cubic-bezier(0.1, 0.8, 0.2, 1) 0s,
+    box-shadow 3.5s ease-out 0s,
+    background-color 0s linear 99999s,
+    color 0s linear 99999s;
+}
+
+/* 4. Trigger di Partenza e Volo */
+/* 4. Trigger di Partenza e Volo (Sincronizzato a 15s) */
+.rampa-di-lancio:hover .avatar-circle {
+  rotate: 360deg;
+  translate: 0px -200vh;
+
+  /* L'animazione del razzo parte a 15s, quando l'audio si attiva */
+  animation: propulsoriSith 6s forwards;
+  animation-delay: 15s;
+
+  /* La transizione del volo parte a 15s + il tempo di reazione */
+  transition:
+    rotate 0.5s ease-out 0s,
+    translate 4s cubic-bezier(0.7, 0, 1, 0.3) 16.5s,
+    background-color 0.5s ease-out 15s,
+    color 0.5s ease-out 15s;
+}
+
+/* Aggiungilo subito dopo la classe .rampa-di-lancio:hover .avatar-circle nel tuo CSS */
+
+/* Effetto di "pulsazione" Sith appena parte il respiro */
+.rampa-di-lancio:hover .avatar-circle::after {
+  animation: respiroSith 3s infinite ease-in-out;
+}
+
+@keyframes respiroSith {
+  0% {
+    box-shadow: 0 0 10px #e50914;
+  }
+  50% {
+    box-shadow: 0 0 25px #e50914;
+  }
+  100% {
+    box-shadow: 0 0 10px #e50914;
+  }
+}
+
+/* =========================================
+   DISEGNO CSS PURO: CASCO DI DARTH VADER
+   ========================================= */
+
+/* LA CUPOLA DEL CASCO (::before) */
+.avatar-circle::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -15%;
+  width: 130%;
+  height: 130%;
+  background-color: #0a0a0a;
+  /* Sagoma allargata sul collo tipo elmo Samurai/Vader */
+  border-radius: 50% 50% 15% 15% / 60% 60% 40% 40%;
+  box-shadow:
+    inset 0 15px 20px rgba(255, 255, 255, 0.1),
+    inset 0 -15px 30px rgba(0, 0, 0, 0.9),
+    0 15px 20px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  z-index: 101;
+  /* Resta per sempre una volta apparso */
+  transition: opacity 0s linear 99999s;
+}
+
+/* LA MASCHERA FACCIALE (::after) */
+.avatar-circle::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  width: 80%;
+  height: 75%;
+  background: 
+    /* Occhio Rosso Sith SX */
+    radial-gradient(ellipse at 25% 25%, #e50914 12%, #111 20%, transparent 25%),
+    /* Occhio Rosso Sith DX */
+    radial-gradient(ellipse at 75% 25%, #e50914 12%, #111 20%, transparent 25%),
+    /* Griglia Respiratoria a triangolo */
+    repeating-linear-gradient(to right, #111 0px, #111 3px, #000 3px, #000 6px)
+      50% 95% / 35% 35% no-repeat,
+    /* Naso Argentato scuro */ linear-gradient(to bottom, #333, #000) 50% 55% /
+      15% 30% no-repeat,
+    /* Base della faccia in carbonio */
+    radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 70%);
+  border-radius: 40% 40% 50% 50% / 30% 30% 60% 60%;
+  box-shadow: inset 0 0 15px #000;
+  opacity: 0;
+  z-index: 102;
+  /* Resta per sempre */
+  transition: opacity 0s linear 99999s;
+}
+
+/* Apparizione del casco sincronizzata a 15s */
+.rampa-di-lancio:hover .avatar-circle::before,
+.rampa-di-lancio:hover .avatar-circle::after {
+  opacity: 1;
+  transition: opacity 0.5s ease-in 15s;
+}
+
+/* =========================================
+   KEYFRAMES COUNTDOWN E PROPULSORI SITH
+   ========================================= */
+@keyframes displayCountdown {
+  0% {
+    content: "- 5 -";
+    opacity: 1;
+  }
+  20% {
+    content: "- 4 -";
+    opacity: 1;
+  }
+  40% {
+    content: "- 3 -";
+    opacity: 1;
+  }
+  60% {
+    content: "- 2 -";
+    opacity: 1;
+  }
+  80% {
+    content: "- 1 -";
+    opacity: 1;
+  }
+  95% {
+    content: "IGNITION";
+    color: #e50914; /* Scatta al rosso scuro solo alla fine */
+    text-shadow: none; /* Rimuove l'ombra arancione per un effetto più netto */
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    content: "";
+    opacity: 0;
+  }
+}
+
+@keyframes propulsoriSith {
+  0% {
+    transform: translate(0, 0);
+    box-shadow:
+      0 0 0 rgba(229, 9, 20, 0),
+      0 0 0 rgba(178, 7, 16, 0),
+      0 0 0 rgba(0, 0, 0, 0);
+  }
+  2% {
+    transform: translate(-1px, 1px);
+    box-shadow:
+      0 10px 20px rgba(229, 9, 20, 0.5),
+      0 0 0 rgba(178, 7, 16, 0),
+      0 0 0 rgba(0, 0, 0, 0);
+  }
+  4% {
+    transform: translate(1px, -1px);
+  }
+  6% {
+    transform: translate(-1px, -1px);
+  }
+  10% {
+    /* IGNITION: Potenza Rossa Oscura Purissima, niente fumo bianco! */
+    transform: translate(0, 0);
+    box-shadow:
+      0 40px 30px -10px rgba(229, 9, 20, 0.9),
+      0 80px 50px -10px rgba(178, 7, 16, 0.8),
+      0 120px 80px -10px rgba(0, 0, 0, 0.9);
+  }
+  100% {
+    transform: translate(0, 0);
+    /* In volo la colonna di propulsione diventa lunga, rossa e violenta */
+    box-shadow:
+      0 200px 100px -20px rgba(229, 9, 20, 1),
+      0 400px 150px -20px rgba(178, 7, 16, 0.9),
+      0 800px 200px -20px rgba(0, 0, 0, 0.8);
+  }
 }
 
 /* btn GitHub*/
@@ -470,7 +658,6 @@ body {
   display: inline-block;
 }
 
-/* Ora questo div serve SOLO per centrare lo spazio, senza essere cliccabile */
 .popup-immagine-container {
   display: flex;
   align-items: center;
@@ -481,17 +668,13 @@ body {
 #popupImmagine {
   max-width: 200px;
   border-radius: 4px;
-  /* Effetti spostati qui, direttamente sulla locandina */
   cursor: zoom-in;
   transition: transform 0.2s ease-in-out;
 }
-
-/* L'hover fa ingrandire SOLO l'immagine */
 #popupImmagine:hover {
   transform: scale(1.05);
 }
 
-/* Il contenitore base del popup */
 .popup-contenuto {
   background-color: #000000;
   padding: 30px;
@@ -501,20 +684,14 @@ body {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
   color: #ffffff;
   text-align: left;
-
   position: fixed;
   top: 50%;
   left: 50%;
-
-  /* L'overflow nascosto è il segreto per far funzionare l'illusione! */
   overflow: hidden;
   transform-style: preserve-3d;
-
-  /* Animazione di inclinazione: il tabellone sbatte contro lo schermo */
   animation: tiltTabellone 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* 1. LA MASCHERA: Uno strato nero che "nasconde" il poster non ancora srotolato */
 .popup-contenuto::before {
   content: "";
   position: absolute;
@@ -522,22 +699,15 @@ body {
   left: 0;
   right: 0;
   background-color: #000000;
-  z-index: 98; /* Sta sopra al testo, ma sotto al rullo */
-
-  /* Si rimpicciolisce dal 100% allo 0% andando verso l'alto */
+  z-index: 98;
   animation: alzaMaschera 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* 2. IL RULLO 3D: Il cilindro di carta arrotolata */
 .popup-contenuto::after {
   content: "";
   position: absolute;
-  /* Lo facciamo più largo del popup (110% e -5%) così i bordi arrotondati vengono tagliati 
-     dall'overflow: hidden, facendolo sembrare un cilindro perfetto e non una pillola! */
   left: -5%;
   width: 110%;
-
-  /* Questo gradiente crea l'effetto lucido 3D del cilindro illuminato */
   background: linear-gradient(
     to bottom,
     #555 0%,
@@ -546,20 +716,12 @@ body {
     #000 80%,
     #222 100%
   );
-
-  /* Ombra proiettata sulla carta + riflesso di luce interno */
   box-shadow:
     0 15px 20px rgba(0, 0, 0, 0.9),
     inset 0 2px 4px rgba(255, 255, 255, 0.4);
   z-index: 99;
-
-  /* Il rullo sale e si rimpicciolisce */
   animation: rulloSrotola 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
-
-/* =========================================
-   ANIMAZIONI RULLO 3D (Effetto Premium)
-   ========================================= */
 
 @keyframes tiltTabellone {
   0% {
@@ -583,14 +745,14 @@ body {
 @keyframes rulloSrotola {
   0% {
     bottom: 0%;
-    height: 70px; /* Rullo molto spesso e carico di carta all'inizio */
-    border-radius: 35px; /* Perfettamente tondo */
+    height: 70px;
+    border-radius: 35px;
   }
   100% {
     bottom: 100%;
-    height: 5px; /* Rullo esaurito (sottilissimo) in cima */
+    height: 5px;
     border-radius: 2px;
-    opacity: 0; /* Scompare una volta srotolato tutto */
+    opacity: 0;
   }
 }
 
@@ -610,7 +772,6 @@ body {
   transform: scale(1.05) translateY(-2px);
 }
 
-/* btn chiudi */
 .bottone-chiudi {
   position: absolute;
   top: 15px;
@@ -637,10 +798,9 @@ body {
   z-index: 999999;
   align-items: center;
   justify-content: center;
-  cursor: zoom-out; /* lente meno */
+  cursor: zoom-out;
 }
 
-/* animazione zoom per lightbox */
 .lightbox-overlay img {
   max-width: 90vw;
   max-height: 90vh;
@@ -649,7 +809,6 @@ body {
   animation: zoomInLightBox 0.3s ease-out;
 }
 
-/* definizione dell'animazione */
 @keyframes zoomInLightBox {
   from {
     transform: scale(0.8);
@@ -661,11 +820,7 @@ body {
   }
 }
 
-/* =========================================
-   ANIMAZIONI TITOLO (Ingresso lettere e Molla)
-   ========================================= */
-
-/* Classe assegnata tramite JS a ogni singola lettera */
+/* ANIMAZIONI TITOLO */
 .lettera-animata {
   display: inline-block;
   opacity: 0;
@@ -684,15 +839,11 @@ body {
   }
 }
 
-/* Fase 1: Compressione progressiva */
 .fase-compressione {
-  /* Questo è il livello di "schiacciamento" massimo */
   letter-spacing: -3px;
 }
 
-/* Fase 2: Rilascio della molla */
 .fase-molla {
-  /* Usiamo una curva bezier "rimbalzante" */
   animation: rilascioMolla 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
@@ -702,8 +853,8 @@ body {
   }
   40% {
     letter-spacing: 2px;
-  } /* Rimbalza allargandosi oltre il normale */
+  }
   100% {
     letter-spacing: 0px;
-  } /* Torna al suo spazio perfetto */
+  }
 }
