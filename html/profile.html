@@ -90,6 +90,7 @@
       const audioVader = new Audio("../mp3/vader.mp3");
       audioVader.volume = 0.8;
 
+      // Sblocco audio al primo click (necessario per i browser moderni)
       document.addEventListener(
         "click",
         () => {
@@ -99,20 +100,26 @@
       );
 
       let timerAudio;
-      let latoOscuroSbloccato = false;
+      // Non serve più latoOscuroSbloccato se vogliamo che riparta ogni volta
 
       rampa.addEventListener("mouseenter", () => {
-        if (latoOscuroSbloccato) return;
-
-        // L'audio parte dopo 5 secondi
+        // Timer che fa partire l'audio a 5 secondi
         timerAudio = setTimeout(() => {
-          audioVader.play().catch((e) => console.log("Audio bloccato"));
-          latoOscuroSbloccato = true;
+          audioVader
+            .play()
+            .catch((e) =>
+              console.log("Audio bloccato: clicca sulla pagina per sbloccarlo"),
+            );
         }, 5000);
       });
 
       rampa.addEventListener("mouseleave", () => {
+        // 1. Ferma il timer del decollo (se non sono passati 5 secondi)
         clearTimeout(timerAudio);
+
+        // 2. STOP e RESET dell'audio (se era già partito)
+        audioVader.pause();
+        audioVader.currentTime = 0;
       });
     </script>
   </body>

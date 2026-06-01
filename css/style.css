@@ -394,6 +394,7 @@ body {
 
 /* 3. Il tuo cerchio Avatar Base */
 .avatar-circle {
+  --vader-color: #444; /* Colore base grigio scuro */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -402,24 +403,21 @@ body {
   position: relative;
   z-index: 100;
 
-  background-color: #e50914; /* Colore originale */
-  color: #ffffff; /* Testo originale */
+  background-color: #e50914; /* Colore originale del cerchio avatar */
+  color: #ffffff;
   border-radius: 50%;
   margin: 0 auto 20px auto;
   font-size: 32px;
   font-weight: bold;
 
-  /* ROTAZIONE INTELLIGENTE: 0 gradi di base, 360 se Vader Mode è attiva! */
   rotate: calc(360deg * var(--vader-mode));
   translate: 0px 0px;
 
-  /* Ombre base vuote, pronte per il Rientro Propulsivo Rosso */
   box-shadow:
     0 0 0 rgba(229, 9, 20, 0),
     0 0 0 rgba(178, 7, 16, 0),
     0 0 0 rgba(0, 0, 0, 0);
 
-  /* MEMORIA: Mantiene colori e rotazione per 99999s. Rientra a terra in 3.5s. */
   transition:
     rotate 0.5s ease-out,
     translate 3.5s cubic-bezier(0.1, 0.8, 0.2, 1) 0s,
@@ -428,48 +426,27 @@ body {
     color 0s linear 99999s;
 }
 
-/* 4. Trigger di Partenza e Volo */
 /* 4. Trigger di Partenza e Volo (Ignition e decollo al 20°) */
 .rampa-di-lancio:hover .avatar-circle {
+  --vader-color: #e50914; /* Diventa rosso al 20° secondo */
   rotate: 360deg;
   translate: 0px -200vh;
 
-  /* Animazione motori parte a 20s */
   animation: propulsoriSith 6s forwards;
   animation-delay: 20s;
 
-  /* Transizione colori e decollo al 20s */
   transition:
     rotate 0.5s ease-out 0s,
     translate 4s cubic-bezier(0.7, 0, 1, 0.3) 21.5s,
     background-color 0.5s ease-out 20s,
-    color 0.5s ease-out 20s;
-}
-
-/* Aggiungilo subito dopo la classe .rampa-di-lancio:hover .avatar-circle nel tuo CSS */
-
-/* Effetto di "pulsazione" Sith appena parte il respiro */
-.rampa-di-lancio:hover .avatar-circle::after {
-  animation: respiroSith 3s infinite ease-in-out;
-}
-
-@keyframes respiroSith {
-  0% {
-    box-shadow: 0 0 10px #e50914;
-  }
-  50% {
-    box-shadow: 0 0 25px #e50914;
-  }
-  100% {
-    box-shadow: 0 0 10px #e50914;
-  }
+    color 0.5s ease-out 20s,
+    --vader-color 0s linear 20s; /* Il cambio colore scatta al 20° sec */
 }
 
 /* =========================================
    DISEGNO CSS PURO: CASCO DI DARTH VADER
    ========================================= */
 
-/* LA CUPOLA DEL CASCO (::before) */
 .avatar-circle::before {
   content: "";
   position: absolute;
@@ -478,7 +455,6 @@ body {
   width: 130%;
   height: 130%;
   background-color: #0a0a0a;
-  /* Sagoma allargata sul collo tipo elmo Samurai/Vader */
   border-radius: 50% 50% 15% 15% / 60% 60% 40% 40%;
   box-shadow:
     inset 0 15px 20px rgba(255, 255, 255, 0.1),
@@ -486,11 +462,9 @@ body {
     0 15px 20px rgba(0, 0, 0, 0.8);
   opacity: 0;
   z-index: 101;
-  /* Resta per sempre una volta apparso */
   transition: opacity 0s linear 99999s;
 }
 
-/* LA MASCHERA FACCIALE (::after) */
 .avatar-circle::after {
   content: "";
   position: absolute;
@@ -499,12 +473,28 @@ body {
   width: 80%;
   height: 75%;
   background: 
-    /* Occhio Rosso Sith SX */
-    radial-gradient(ellipse at 25% 25%, #e50914 12%, #111 20%, transparent 25%),
-    /* Occhio Rosso Sith DX */
-    radial-gradient(ellipse at 75% 25%, #e50914 12%, #111 20%, transparent 25%),
-    /* Griglia Respiratoria a triangolo */
-    repeating-linear-gradient(to right, #111 0px, #111 3px, #000 3px, #000 6px)
+    /* Occhio Rosso Sith SX (usa la variabile --vader-color) */
+    radial-gradient(
+      ellipse at 25% 25%,
+      var(--vader-color) 12%,
+      #111 20%,
+      transparent 25%
+    ),
+    /* Occhio Rosso Sith DX (usa la variabile --vader-color) */
+    radial-gradient(
+        ellipse at 75% 25%,
+        var(--vader-color) 12%,
+        #111 20%,
+        transparent 25%
+      ),
+    /* Griglia Respiratoria (usa la variabile --vader-color) */
+    repeating-linear-gradient(
+        to right,
+        #111 0px,
+        #111 3px,
+        var(--vader-color) 3px,
+        var(--vader-color) 6px
+      )
       50% 95% / 35% 35% no-repeat,
     /* Naso Argentato scuro */ linear-gradient(to bottom, #333, #000) 50% 55% /
       15% 30% no-repeat,
@@ -514,7 +504,6 @@ body {
   box-shadow: inset 0 0 15px #000;
   opacity: 0;
   z-index: 102;
-  /* Resta per sempre */
   transition: opacity 0s linear 99999s;
 }
 
@@ -522,9 +511,8 @@ body {
 .rampa-di-lancio:hover .avatar-circle::before,
 .rampa-di-lancio:hover .avatar-circle::after {
   opacity: 1;
-  transition: opacity 0.5s ease-in 20s; /* Appare al 20s */
+  transition: opacity 0.5s ease-in 20s;
 }
-
 /* =========================================
    KEYFRAMES COUNTDOWN E PROPULSORI SITH
    ========================================= */
