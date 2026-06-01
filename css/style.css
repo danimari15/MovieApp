@@ -1,0 +1,413 @@
+/* body */
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* header */
+.main-header {
+  background-color: #e50914;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  border-bottom: 2px solid #000000;
+}
+
+/* logo */
+.logo-img {
+  height: 120px;
+  letter-spacing: 1px;
+  transition: all 0.5s ease-in-out;
+}
+.logo-img:hover {
+  transform: scale(1.3);
+  filter: invert(100%);
+  rotate: -5deg;
+}
+
+/* nav */
+.nav-link {
+  display: inline-block;
+  color: #000000;
+  text-decoration: none;
+  margin-left: 25px;
+  font-size: 15px;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase bold;
+  font-weight: bold;
+}
+.nav-link:hover {
+  color: #ffffff;
+  transform: scale(1.2) rotate(5deg);
+}
+.nav-link.active {
+  color: #ffffff;
+  border-bottom: 2px solid #ffffff;
+  padding-bottom: 5px;
+  transform: scale(1.25);
+}
+
+/* main content */
+.content-wrapper {
+  padding: 30px 5%;
+  min-height: 75vh;
+}
+
+.section-title {
+  color: #ffffff;
+  font-size: 22px;
+  margin-bottom: 25px;
+  border-left: 4px solid #e50914;
+  padding-left: 10px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* griglia film/serie e poster */
+.movie-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 25px;
+}
+
+/* poster */
+.poster-item {
+  background-color: #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+.poster-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 16px rgba(255, 1, 1, 0.748);
+}
+
+.poster-item img {
+  width: 100%;
+  display: block;
+  height: 270px;
+  object-fit: cover;
+}
+
+.item-meta {
+  padding: 12px;
+  background-color: #e50914;
+  flex-grow: 1;
+}
+
+.item-meta h3 {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.anno-voto {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 5px;
+}
+
+.item-meta span {
+  font-size: 12px;
+  color: #ffffff;
+  font-style: italic;
+}
+
+/* footer */
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #141414;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+.footer-text {
+  font-size: 13px;
+  color: #595959;
+  transition: all 0.3s ease-in-out;
+}
+.footer-text:hover {
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* loader e error */
+.loader-text {
+  color: #ffffff;
+  font-style: italic;
+}
+
+.error-text {
+  color: #ff4d4d;
+  background-color: rgba(255, 77, 77, 0.1);
+  padding: 15px;
+  border-radius: 4px;
+}
+
+/* box profilo */
+.user-profile-box {
+  background-color: #141414;
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 40px;
+  text-align: center;
+  border-radius: 12px;
+}
+
+/* avatar */
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  background-color: #e50914;
+  color: #ffffff;
+  border-radius: 50%;
+  margin: 0 auto 20px auto;
+  font-size: 32px;
+  line-height: 80px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+.avatar-circle:hover {
+  background-color: #e50914cc;
+  transform: scale(1.3);
+  rotate: 360deg;
+}
+
+.user-title {
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.project-details {
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.tech-stack {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.tech-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+.tech-link:hover {
+  color: #e50914;
+}
+
+/* btn GitHub*/
+.git-action {
+  margin-top: 25px;
+}
+
+.btn-git {
+  display: inline-block;
+  background-color: #e50914;
+  color: #ffffff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 20px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+.btn-git:hover {
+  background-color: #e50914cc;
+  transform: scale(1.1);
+}
+
+/* popup */
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 99999;
+}
+
+#popupImmagine {
+  max-width: 200px;
+  border-radius: 4px;
+}
+
+.popup-titolo-center {
+  text-align: center;
+}
+
+.popup-block-italic {
+  display: inline-block;
+  font-style: italic;
+}
+
+.popup-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.popup-inline {
+  display: inline-block;
+}
+
+.popup-immagine-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  transition: transform 0.2s ease-in-out;
+  cursor: zoom-in; /* lente più */
+}
+.popup-immagine-container:hover {
+  transform: scale(1.05);
+}
+
+.popup-contenuto {
+  background-color: #000000;
+  padding: 30px;
+  width: 450px;
+  max-width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  text-align: left;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.popup-titolo-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+  margin-top: 8px;
+  transition:
+    color 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
+}
+.popup-titolo-link:hover {
+  color: #e50914;
+  transform: scale(1.05) translateY(-2px);
+}
+
+/* btn chiudi */
+.bottone-chiudi {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #ffffff;
+  transition: color 0.2s ease-in-out;
+}
+.bottone-chiudi:hover {
+  color: #666666;
+}
+
+/* lightbox */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.92);
+  z-index: 999999;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out; /* lente meno */
+}
+
+/* animazione zoom per lightbox */
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  animation: zoomInLightBox 0.3s ease-out;
+}
+
+/* definizione dell'animazione */
+@keyframes zoomInLightBox {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* =========================================
+   ANIMAZIONI TITOLO (Ingresso lettere e Molla)
+   ========================================= */
+
+/* Classe assegnata tramite JS a ogni singola lettera */
+.lettera-animata {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(100vw);
+  animation: volaDaDestra 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes volaDaDestra {
+  0% {
+    opacity: 0;
+    transform: translateX(100vw);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Fase 1: Compressione progressiva */
+.fase-compressione {
+  /* Questo è il livello di "schiacciamento" massimo */
+  letter-spacing: -3px;
+}
+
+/* Fase 2: Rilascio della molla */
+.fase-molla {
+  /* Usiamo una curva bezier "rimbalzante" */
+  animation: rilascioMolla 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes rilascioMolla {
+  0% {
+    letter-spacing: -3px;
+  }
+  40% {
+    letter-spacing: 2px;
+  } /* Rimbalza allargandosi oltre il normale */
+  100% {
+    letter-spacing: 0px;
+  } /* Torna al suo spazio perfetto */
+}

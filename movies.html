@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="it">
+  <!-- head film -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie App - Film</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <!-- body -->
+  <body>
+    <!-- header -->
+    <header class="main-header">
+      <!-- logo -->
+      <div>
+        <a href="home.html">
+          <img src="img/logo-nero.png" class="logo-img" alt="Movie-App Logo" />
+        </a>
+      </div>
+      <!-- nav -->
+      <nav class="navigation-bar">
+        <a href="home.html" class="nav-link">Home</a>
+        <a href="movies.html" class="nav-link active">Film</a>
+        <a href="series.html" class="nav-link">Serie TV</a>
+        <a href="profile.html" class="nav-link">Account</a>
+      </nav>
+    </header>
+    <!-- main con sezione film -->
+    <main class="content-wrapper">
+      <section class="section-block">
+        <h2 class="section-title">Film nelle sale e popolari</h2>
+        <div id="cinema-list" class="movie-deck"></div>
+      </section>
+    </main>
+    <!-- popup per dettagli film -->
+    <div id="mioPopup" class="popup-overlay">
+      <div class="popup-contenuto">
+        <span id="chiudiPopup" class="bottone-chiudi">&times;</span>
+
+        <h2 id="popupTitolo"></h2>
+        <div class="popup-immagine-container">
+          <img id="popupImmagine" src="" alt="" />
+        </div>
+        <div id="popupAnno-Voto">
+          <p id="popupAnno"></p>
+          <p id="popupVoto"></p>
+        </div>
+        <p id="popupDescrizione"></p>
+        <div id="popupTrailerCast">
+          <div id="popupTrailer"></div>
+          <div id="popupCast"></div>
+        </div>
+      </div>
+    </div>
+    <!-- lightbox -->
+    <div id="lightboxOverlay" class="lightbox-overlay">
+      <img id="lightboxImmagine" src="" alt="Immagine ingrandita" />
+    </div>
+    <!-- footer -->
+    <footer class="app-footer">
+      <span class="footer-text">Movie App &copy; 2026</span>
+    </footer>
+    <!-- script -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
