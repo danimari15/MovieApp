@@ -389,7 +389,7 @@ body {
 
 .rampa-di-lancio:hover::before {
   animation: displayCountdown 5s forwards;
-  animation-delay: 5s;
+  animation-delay: 15s;
 }
 
 /* 3. Il tuo cerchio Avatar Base */
@@ -429,21 +429,21 @@ body {
 }
 
 /* 4. Trigger di Partenza e Volo */
-/* 4. Trigger di Partenza e Volo (Sincronizzato a 15s) */
+/* 4. Trigger di Partenza e Volo (Ignition e decollo al 20°) */
 .rampa-di-lancio:hover .avatar-circle {
   rotate: 360deg;
   translate: 0px -200vh;
 
-  /* L'animazione del razzo parte a 15s, quando l'audio si attiva */
+  /* Animazione motori parte a 20s */
   animation: propulsoriSith 6s forwards;
-  animation-delay: 15s;
+  animation-delay: 20s;
 
-  /* La transizione del volo parte a 15s + il tempo di reazione */
+  /* Transizione colori e decollo al 20s */
   transition:
     rotate 0.5s ease-out 0s,
-    translate 4s cubic-bezier(0.7, 0, 1, 0.3) 16.5s,
-    background-color 0.5s ease-out 15s,
-    color 0.5s ease-out 15s;
+    translate 4s cubic-bezier(0.7, 0, 1, 0.3) 21.5s,
+    background-color 0.5s ease-out 20s,
+    color 0.5s ease-out 20s;
 }
 
 /* Aggiungilo subito dopo la classe .rampa-di-lancio:hover .avatar-circle nel tuo CSS */
@@ -518,11 +518,11 @@ body {
   transition: opacity 0s linear 99999s;
 }
 
-/* Apparizione del casco sincronizzata a 15s */
+/* Apparizione del casco sincronizzata a 20s */
 .rampa-di-lancio:hover .avatar-circle::before,
 .rampa-di-lancio:hover .avatar-circle::after {
   opacity: 1;
-  transition: opacity 0.5s ease-in 15s;
+  transition: opacity 0.5s ease-in 20s; /* Appare al 20s */
 }
 
 /* =========================================
