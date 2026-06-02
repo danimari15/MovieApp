@@ -165,6 +165,7 @@ body {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer; /* Ecco la manina! */
   transition:
     transform 0.3s ease-in-out,
     box-shadow 0.3s ease-in-out;
@@ -229,32 +230,68 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #141414;
+  background-color: #141414; /* Mantenuto il tuo colore originale */
   padding: 20px;
   margin-top: 40px;
+
+  /* Arrotondamento asimmetrico per mantenere lo "stile pennellata" */
+  border-radius: 25px 5px 18px 10px / 6px 20px 8px 25px;
+
+  /* Impostiamo la maschera iniziale tutta schiacciata a destra, così il testo è invisibile */
+  clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+
+  /* L'animazione da destra a sinistra */
+  animation: pennellataFooterScusa 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation-delay: 0.3s; /* Entra un istante dopo l'header */
+}
+
+/* Keyframes per l'entrata da DESTRA verso SINISTRA con taglio sbieco */
+@keyframes pennellataFooterScusa {
+  0% {
+    clip-path: polygon(120% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+  100% {
+    /* Si "apre" completamente verso sinistra (-20% dà l'effetto obliquo alla linea che avanza) */
+    clip-path: polygon(0% 0, 100% 0, 100% 100%, -20% 100%);
+  }
 }
 
 .footer-text {
+  display: inline-block; /* Fondamentale per far funzionare le trasformazioni fisiche */
   font-size: 13px;
-  color: #595959;
+  color: #595959; /* Mantenuto il tuo colore originale */
   transition: all 0.3s ease-in-out;
+
+  /* Preparazione per l'entrata in scena */
+  opacity: 0;
+  transform-origin: bottom center;
+  animation: rimbalzoTesto 0.9s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation-delay: 0.5s; /* Parte quando la pennellata sta scoprendo il centro */
 }
+
 .footer-text:hover {
   color: #ffffff;
-  transform: scale(1.05);
+  /* Il !important è necessario perché l'animazione "forwards" blocca il transform alla fine. Così forziamo l'ingrandimento al passaggio del mouse. */
+  transform: scale(1.05) !important;
 }
 
-/* loader e error */
-.loader-text {
-  color: #ffffff;
-  font-style: italic;
-}
-
-.error-text {
-  color: #ff4d4d;
-  background-color: rgba(255, 77, 77, 0.1);
-  padding: 15px;
-  border-radius: 4px;
+/* KEYFRAMES: La stessa fisica della nav, ma dal basso verso l'alto */
+@keyframes rimbalzoTesto {
+  0% {
+    opacity: 0;
+    transform: translateY(150px) scaleY(1.5) scaleX(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0) scaleY(0.5) scaleX(1.15); /* Impatto a terra */
+  }
+  75% {
+    transform: translateY(0) scaleY(1.1) scaleX(0.95); /* Rimbalzo verso l'alto */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1) scaleX(1); /* Assestamento finale */
+  }
 }
 
 /* box profilo */
@@ -892,4 +929,35 @@ body {
     font-size: 14px;
     text-align: center;
   }
+}
+/* =========================================
+   LAYOUT PAGINA PROFILO (FULL SCREEN E CENTRATO)
+   ========================================= */
+
+/* Imposta il body esattamente grande quanto lo schermo (100vh) e blocca lo scroll */
+.profile-body {
+  height: 100vh;
+  overflow: hidden; /* Elimina ogni possibilità di fare swipe/scroll */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Il content-wrapper si allunga per riempire il vuoto e centra il contenuto al millimetro */
+.profile-body .content-wrapper {
+  flex: 1; /* Prende tutto lo spazio tra header e footer */
+  display: flex;
+  align-items: center; /* Centratura verticale perfetta */
+  justify-content: center; /* Centratura orizzontale perfetta */
+  min-height: auto; /* Annulla il min-height originale che causava lo scroll */
+  padding: 0 5%;
+}
+
+/* Rimuoviamo il margine che sbilanciava il box verso il basso */
+.profile-body .user-profile-box {
+  margin: 0;
+}
+
+/* Togliamo lo spazio inutile sopra al footer per ancorarlo in fondo */
+.profile-body .app-footer {
+  margin-top: 0;
 }
