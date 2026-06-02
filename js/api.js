@@ -14,7 +14,7 @@ async function fetchDaTMDB(endpoint) {
     const data = await response.json();
     return data.results;
   } catch (error) {
-    // catch errori di rete o altri problemi
+    // catch errori di codice
     console.error(error);
     return null;
   }
